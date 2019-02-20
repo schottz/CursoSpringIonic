@@ -9,7 +9,9 @@ import { MenuController } from 'ionic-angular/components/app/menu-controller';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public teste: MenuController) {
+  constructor(
+    public navCtrl: NavController,
+    public menu: MenuController) {
 
   }
 
@@ -18,11 +20,11 @@ export class HomePage {
   }
 
   ionViewWillLoad(){
-    this.teste.swipeEnable(false);
+    this.menu.swipeEnable(false);
   }
-
+ 
   ionViewWillLeave(){
-    this.teste.swipeEnable(true);
+    this.menu.swipeEnable(true);
   }
 
 }
