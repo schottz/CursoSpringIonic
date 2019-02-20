@@ -19,7 +19,7 @@ export class HomePage {
     this.navCtrl.setRoot('CategoriasPage');
   }
 
-  ionViewWillLoad(){
+  ionViewWillLoad() {
     this.menu.swipeEnable(false);
   }
  
