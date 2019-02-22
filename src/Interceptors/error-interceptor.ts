@@ -3,11 +3,13 @@ import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Observable } from "rxjs/Rx";
 import { StorageService } from "../services/storage.service";
+import { AlertController } from "ionic-angular/components/alert/alert-controller";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor{
 
-    constructor(public storage: StorageService){
+    constructor(public storage: StorageService,
+        public alertCtrl: AlertController){
 
     }
 
@@ -18,7 +20,6 @@ export class ErrorInterceptor implements HttpInterceptor{
 
             let errorObj = error;
             if(errorObj.error){
-                console.log("Pegou o erro");
                 errorObj = errorObj.error;
             }
             if(!errorObj.status){
@@ -26,9 +27,17 @@ export class ErrorInterceptor implements HttpInterceptor{
             }
 
             switch(errorObj.status){
+
+                case 401: 
+                this.handle401();
+                break;
+
                 case 403:
                 this.handle403();
                 break;
+
+                default:
+                this.handleDefaultError(errorObj);
             }
 
             return Observable.throw(errorObj);
@@ -37,6 +46,34 @@ export class ErrorInterceptor implements HttpInterceptor{
 
     handle403(){
         this.storage.setLocalUser(null);
+    }
+
+    handle401(){
+        let alert = this.alertCtrl.create({
+            title: 'Falha de autenticação',
+            message: 'Email ou senha incorretos',
+            enableBackdropDismiss: false,
+            buttons: [
+                {
+                    text: 'Ok'
+                }
+            ]
+        });
+        alert.present();
+    }
+
+    handleDefaultError(errorObj){
+        let alert = this.alertCtrl.create({
+            title: errorObj.error,
+            message: errorObj.message,
+            enableBackdropDismiss: false,
+            buttons: [
+                {
+                    text: 'Ok'
+                }
+            ]
+        });
+        alert.present();
     }
 }
 
