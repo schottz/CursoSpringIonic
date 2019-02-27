@@ -12,26 +12,25 @@ export class PaymentPage {
 
   pedido: PedidoDTO;
 
-  parcelas: number[] = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  parcelas: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   formGroup: FormGroup;
 
   constructor(
-    public navCtrl: NavController,
+    public navCtrl: NavController, 
     public navParams: NavParams,
     public formBuilder: FormBuilder) {
 
-      this.pedido = this.navParams.get('pedido');
+    this.pedido = this.navParams.get('pedido');
 
-      this.formGroup = this.formBuilder.group({
-        numeroDeParcelas: [ 1, Validators.required],
-        '@type': ["pagamentoComCartao", Validators.required]
-      });
+    this.formGroup = this.formBuilder.group({
+      numeroDeParcelas: [1, Validators.required],
+      "@type": ["pagamentoComCartao", Validators.required]
+    });
   }
 
-  nextPage(){
+  nextPage() {
     this.pedido.pagamento = this.formGroup.value;
     this.navCtrl.setRoot('OrderConfirmationPage', {pedido: this.pedido});
   }
-
 }
