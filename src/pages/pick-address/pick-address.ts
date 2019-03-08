@@ -18,43 +18,42 @@ export class PickAddressPage {
   pedido: PedidoDTO;
 
   constructor(
-    public navCtrl: NavController,
+    public navCtrl: NavController, 
     public navParams: NavParams,
     public storage: StorageService,
     public clienteService: ClienteService,
     public cartService: CartService) {
   }
 
-  ionViewWillLoad() {
+  ionViewDidLoad() {
     let localUser = this.storage.getLocalUser();
-    if(localUser && localUser.email){
+    if (localUser && localUser.email) {
       this.clienteService.findByEmail(localUser.email)
-      .subscribe(response => {
-        this.items = response['enderecos'];
+        .subscribe(response => {
+          this.items = response['enderecos'];
 
-        let cart = this.cartService.getCart();
-        
-        this.pedido = {
-          cliente: {id: response['id']},
-          enderecoDeEntrega: null,
-          pagamento: null,
-          items: cart.items.map(x => { return {quantidade: x.quantidade, produto: {id: x.produto.id}}}),
-        }
-      },
-      error => {
-        if(error.status == 403){
-          this.navCtrl.setRoot('HomePage');
-        }
-      });
+          let cart = this.cartService.getCart();
+
+          this.pedido = {
+            cliente: {id: response['id']},
+            enderecoDeEntrega: null,
+            pagamento: null,
+            itens : cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
+          }
+        },
+        error => {
+          if (error.status == 403) {
+            this.navCtrl.setRoot('HomePage');
+          }
+        });
     }
-    else{
+    else {
       this.navCtrl.setRoot('HomePage');
     }
   }
 
-  nextPage(item: EnderecoDTO){
+  nextPage(item: EnderecoDTO) {
     this.pedido.enderecoDeEntrega = {id: item.id};
     this.navCtrl.push('PaymentPage', {pedido: this.pedido});
   }
-
 }

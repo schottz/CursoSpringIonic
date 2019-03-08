@@ -14,43 +14,42 @@ export class HomePage {
   creds : CredenciaisDTO = {
     email: "",
     senha: ""
-  }
- 
+  };
+
   constructor(
-    public navCtrl: NavController,
+    public navCtrl: NavController, 
     public menu: MenuController,
     public auth: AuthService) {
 
   }
 
-  login(){
-    this.auth.authenticate(this.creds)
-      .subscribe(response => {
-      this.auth.successfulLogin(response.headers.get('Authorization'));
-    this.navCtrl.setRoot('CategoriasPage');
-    },
-    error => {});
-  }
-
-  signup(){
-    this.navCtrl.push('SignupPage');
-  }
-
-  ionViewWillLoad() {
+  ionViewWillEnter() {
     this.menu.swipeEnable(false);
   }
- 
-  ionViewWillLeave(){
+    
+  ionViewDidLeave() {
     this.menu.swipeEnable(true);
   }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.auth.refreshToken()
       .subscribe(response => {
-      this.auth.successfulLogin(response.headers.get('Authorization'));
-    this.navCtrl.setRoot('CategoriasPage');
-    },
-    error => {});
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+      error => {});  
   }
 
+  login() {
+    this.auth.authenticate(this.creds)
+      .subscribe(response => {
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+      error => {});    
+  }
+ 
+  signup() {
+    this.navCtrl.push('SignupPage');
+  }
 }

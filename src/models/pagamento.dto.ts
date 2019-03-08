@@ -1,4 +1,4 @@
-export interface PagamentoDTO{
-    numeroDeParcelas: number;
-    "@type": string;
+export interface PagamentoDTO {
+    numeroDeParcelas : number;
+    "@type" : string;
 }

@@ -15,7 +15,7 @@ export class ProdutoDetailPage {
   item: ProdutoDTO;
 
   constructor(
-    public navCtrl: NavController,
+    public navCtrl: NavController, 
     public navParams: NavParams,
     public produtoService: ProdutoService,
     public cartService: CartService) {
@@ -31,17 +31,16 @@ export class ProdutoDetailPage {
       error => {});
   }
 
-  getImageUrlIfExists(){
+  getImageUrlIfExists() {
     this.produtoService.getImageFromBucket(this.item.id)
-    .subscribe(response => {
-      this.item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${this.item.id}.jpg`;
-    },
-    error => {});
+      .subscribe(response => {
+        this.item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${this.item.id}.jpg`;
+      },
+      error => {});
   }
 
-  addToCart(produto: ProdutoDTO){
+  addToCart(produto: ProdutoDTO) {
     this.cartService.addProduto(produto);
     this.navCtrl.setRoot('CartPage');
   }
-
 }

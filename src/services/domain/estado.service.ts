@@ -5,12 +5,12 @@ import { EstadoDTO } from "../../models/estado.dto";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
-export class EstadoService{
+export class EstadoService {
 
-    constructor(public http: HttpClient){
-
+    constructor(public http: HttpClient) {
     }
-    findAll() : Observable<EstadoDTO[]> {
+
+    findAll() : Observable<EstadoDTO[]>  {
         return this.http.get<EstadoDTO[]>(`${API_CONFIG.baseUrl}/estados`);
     }
 }

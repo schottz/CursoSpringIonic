@@ -16,7 +16,7 @@ export class CartPage {
   items: CartItem[];
 
   constructor(
-    public navCtrl: NavController,
+    public navCtrl: NavController, 
     public navParams: NavParams,
     public cartService: CartService,
     public produtoService: ProdutoService) {
@@ -28,8 +28,8 @@ export class CartPage {
     this.loadImageUrls();
   }
 
-  loadImageUrls(){
-    for(var i = 0; i < this.items.length; i++){
+  loadImageUrls() {
+    for (var i=0; i<this.items.length; i++) {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.produto.id)
         .subscribe(response => {
@@ -37,30 +37,29 @@ export class CartPage {
         },
         error => {});
     }
-  }
+  }  
 
-  removeItem(produto : ProdutoDTO){
+  removeItem(produto: ProdutoDTO) {
     this.items = this.cartService.removeProduto(produto).items;
   }
 
-  increaseQuantity(produto : ProdutoDTO){
+  increaseQuantity(produto: ProdutoDTO) {
     this.items = this.cartService.increaseQuantity(produto).items;
   }
 
-  decreaseQuantity(produto : ProdutoDTO){
+  decreaseQuantity(produto: ProdutoDTO) {
     this.items = this.cartService.decreaseQuantity(produto).items;
   }
 
-  total(){
+  total() : number {
     return this.cartService.total();
-  }
+  }  
 
-  continuar(){
+  goOn() {
     this.navCtrl.setRoot('CategoriasPage');
   }
 
-  checkout(){
-    this.navCtrl.push("PickAddressPage");
+  checkout() {
+    this.navCtrl.push('PickAddressPage');
   }
-
 }

@@ -12,6 +12,6 @@ import { PedidoService } from '../../services/domain/pedido.service';
   ],
   providers: [
     PedidoService
-  ],
+  ]
 })
 export class OrderConfirmationPageModule {}
